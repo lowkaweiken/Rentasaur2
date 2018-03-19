@@ -133,6 +133,9 @@ public class PropertyProfile extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(PropertyProfile.this, "You successfully deleted this property", Toast.LENGTH_LONG).show();
+                Intent mainIntent = new Intent(PropertyProfile.this, MainActivity.class);
+                startActivity(mainIntent);
+                finish();
             }
         });
     }
