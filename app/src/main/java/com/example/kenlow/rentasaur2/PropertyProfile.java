@@ -123,7 +123,10 @@ public class PropertyProfile extends AppCompatActivity {
         }
 
     private void deleteItem(int index) {
-        firebaseFirestore.collection("Posts").document("SW2hLeSn9Fm3WVsLx7kY").delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+        firebaseFirestore.collection("Posts")
+                .document("")
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(PropertyProfile.this, "You successfully deleted this property", Toast.LENGTH_LONG).show();
