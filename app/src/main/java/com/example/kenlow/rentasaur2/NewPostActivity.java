@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -173,13 +174,14 @@ public class NewPostActivity extends AppCompatActivity {
                                         postMap.put("timestamp", FieldValue.serverTimestamp());
 
 
-                                        firebaseFirestore.collection("Posts").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+
+                                        firebaseFirestore.collection("Posts")
+                                                .add(postMap)
+                                                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                             @Override
                                             public void onComplete(@NonNull Task<DocumentReference> task) {
 
                                                 if(task.isSuccessful()){
-
-                                                   // Log.i(TAG, "The Property Reference ID is " + propertyRef);
 
                                                     Toast.makeText(NewPostActivity.this, "Post was added", Toast.LENGTH_LONG).show();
                                                     Intent mainIntent = new Intent(NewPostActivity.this, MainActivity.class);
@@ -191,6 +193,11 @@ public class NewPostActivity extends AppCompatActivity {
 
                                                 }
                                                 newPostProgress.setVisibility(View.INVISIBLE);
+                                            }
+                                        }).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference) {
+                                                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                                             }
                                         });
 
