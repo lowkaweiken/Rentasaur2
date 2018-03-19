@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -17,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions;
 public class PropertyProfile extends AppCompatActivity {
 
     private Toolbar Property_profile_toolbar;
+    private static final String TAG = "PropertyProfile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,28 @@ public class PropertyProfile extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.profile_menu, menu);
 
         return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch(item.getItemId()){
+
+            // Option to logout
+            case R.id.action_delete_btn:
+
+                // Do something here
+                Toast.makeText(PropertyProfile.this, "You tried to delete this property", Toast.LENGTH_LONG).show();
+
+                return true;
+
+            default:
+
+                return false;
+
+        }
+
 
     }
 

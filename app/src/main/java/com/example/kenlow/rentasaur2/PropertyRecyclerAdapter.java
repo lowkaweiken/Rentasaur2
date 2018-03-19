@@ -113,8 +113,6 @@ public class PropertyRecyclerAdapter extends RecyclerView.Adapter<PropertyRecycl
 
         private Context context;
 
-        private TextView propertyOwnerName;
-        private CircleImageView propertyOwnerImage;
 
         public ViewHolder(View itemView, Context context, List<PropertyPost> property_list) {
             super(itemView);
@@ -124,7 +122,7 @@ public class PropertyRecyclerAdapter extends RecyclerView.Adapter<PropertyRecycl
 
             mView = itemView;
         }
-
+        //-------------When user clicks on a card----------------///
         @Override
         public void onClick(View v) {
         int position = getAdapterPosition();
@@ -138,13 +136,12 @@ public class PropertyRecyclerAdapter extends RecyclerView.Adapter<PropertyRecycl
             property_profile_intent.putExtra("property_profile_rental","RM " + property_list.getMonthly_rental());
             property_profile_intent.putExtra("property_profile_info",property_list.getExtra_info());
 
-            //-----------------------------Testing----------------///
-
             this.context.startActivity(property_profile_intent);
 
 
         }
 
+        //-------------------Set Address of the property----------------///
         public void setDescText(String descText){
             descView = mView.findViewById(R.id.property_desc);
             descView.setText(descText);
