@@ -16,15 +16,16 @@ import com.bumptech.glide.request.RequestOptions;
 
 public class PropertyProfile extends AppCompatActivity {
 
-    private Toolbar Main_toolbar2;
+    private Toolbar Property_profile_toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_property_profile);
 
-        Main_toolbar2 = findViewById(R.id.main_toolbar2);
-        setSupportActionBar(Main_toolbar2);
+        Property_profile_toolbar = findViewById(R.id.property_profile_toolbar);
+        setSupportActionBar(Property_profile_toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
@@ -82,7 +83,7 @@ public class PropertyProfile extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.profile_menu, menu);
 
         return true;
 
