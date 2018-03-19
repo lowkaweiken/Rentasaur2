@@ -12,14 +12,22 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.firebase.firestore.DocumentReference;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.List;
 
 public class PropertyProfile extends AppCompatActivity {
 
     private Toolbar Property_profile_toolbar;
     private static final String TAG = "PropertyProfile";
+    private FirebaseFirestore firebaseFirestore;
+    public List<PropertyPost> property_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +39,9 @@ public class PropertyProfile extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         getIncomingIntent();
-
 
 
     }
@@ -93,25 +100,35 @@ public class PropertyProfile extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+        public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch(item.getItemId()){
+            switch(item.getItemId()){
 
-            // Option to logout
-            case R.id.action_delete_btn:
+                // Option to logout
+                case R.id.action_delete_btn:
 
-                // Do something here
-                Toast.makeText(PropertyProfile.this, "You tried to delete this property", Toast.LENGTH_LONG).show();
+                    // Do something here
+//                Toast.makeText(PropertyProfile.this, "You tried to delete this property", Toast.LENGTH_LONG).show();
 
-                return true;
+                    //--------------------------------Testing-------------------------------------//
+                    deleteItem(item.getOrder());
+                    return super.onOptionsItemSelected(item);
 
-            default:
 
-                return false;
+                default:
 
+                    return false;
+
+            }
         }
 
-
+    private void deleteItem(int index) {
+        firebaseFirestore.collection("Posts").document("SW2hLeSn9Fm3WVsLx7kY").delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(PropertyProfile.this, "You successfully deleted this property", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 

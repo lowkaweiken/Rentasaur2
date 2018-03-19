@@ -69,6 +69,7 @@ public class PropertyRecyclerAdapter extends RecyclerView.Adapter<PropertyRecycl
 
         String user_id = property_list.get(position).getUser_id();
 
+
         // User Data will be retrieved here
         firebaseFirestore.collection("Users").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -113,6 +114,8 @@ public class PropertyRecyclerAdapter extends RecyclerView.Adapter<PropertyRecycl
 
         private Context context;
 
+        private String property_id;
+
 
         public ViewHolder(View itemView, Context context, List<PropertyPost> property_list) {
             super(itemView);
@@ -155,7 +158,6 @@ public class PropertyRecyclerAdapter extends RecyclerView.Adapter<PropertyRecycl
 
 
         }
-
 
 
 //        public void setOwnerData(String name, String image){

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +33,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.Reference;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -62,6 +64,8 @@ public class NewPostActivity extends AppCompatActivity {
     private String current_user_id;
 
     private Bitmap compressedImageFile;
+
+    private static final String TAG = "NewPostActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,11 +172,15 @@ public class NewPostActivity extends AppCompatActivity {
                                         postMap.put("user_id", current_user_id);
                                         postMap.put("timestamp", FieldValue.serverTimestamp());
 
+
                                         firebaseFirestore.collection("Posts").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                             @Override
                                             public void onComplete(@NonNull Task<DocumentReference> task) {
 
                                                 if(task.isSuccessful()){
+
+                                                   // Log.i(TAG, "The Property Reference ID is " + propertyRef);
+
                                                     Toast.makeText(NewPostActivity.this, "Post was added", Toast.LENGTH_LONG).show();
                                                     Intent mainIntent = new Intent(NewPostActivity.this, MainActivity.class);
                                                     startActivity(mainIntent);
