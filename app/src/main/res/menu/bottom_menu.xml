@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bottom_action_property"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/bottom_property_text" />
+    <item
+        android:id="@+id/bottom_action_tenants"
+        android:icon="@drawable/ic_people_black_24dp"
+        android:title="@string/bottom_tenants_text" />
+    <item
+        android:id="@+id/bottom_action_expenses"
+        android:icon="@drawable/ic_attach_money_black_24dp"
+        android:title="@string/bottom_expenses_text" />
+</menu>

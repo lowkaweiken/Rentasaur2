@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "641332956626",
+    "firebase_url": "https://rentasaur2.firebaseio.com",
+    "project_id": "rentasaur2",
+    "storage_bucket": "rentasaur2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641332956626:android:f8f524646c6dfcff",
+        "android_client_info": {
+          "package_name": "com.example.kenlow.rentasaur2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "641332956626-caejjncjiurpi8ht04umscc9dj34695d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kenlow.rentasaur2",
+            "certificate_hash": "c8d8022c4d2be37bcba90640293f9649781e68a7"
+          }
+        },
+        {
+          "client_id": "641332956626-dcae6c87st6csmjuaor65lg0fcpvfltn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2U7mK-iqo6H9fASLqK3MpTFUn3j_ygDY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "641332956626-dcae6c87st6csmjuaor65lg0fcpvfltn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
