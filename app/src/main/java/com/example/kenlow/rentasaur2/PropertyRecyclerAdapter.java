@@ -32,8 +32,8 @@ public class PropertyRecyclerAdapter extends RecyclerView.Adapter<PropertyRecycl
     // Receiving Data Over Here
     public List<PropertyPost> property_list;
     public Context context;
-
     private FirebaseFirestore firebaseFirestore;
+    public String propertyId;
 
 
     public PropertyRecyclerAdapter(List<PropertyPost> property_list, Context context){
@@ -44,6 +44,7 @@ public class PropertyRecyclerAdapter extends RecyclerView.Adapter<PropertyRecycl
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.property_list_item,parent, false);
 
@@ -57,7 +58,7 @@ public class PropertyRecyclerAdapter extends RecyclerView.Adapter<PropertyRecycl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position ) {
 
         // Receive data as string (the description)
         String desc_data = property_list.get(position).getDesc();
@@ -138,6 +139,7 @@ public class PropertyRecyclerAdapter extends RecyclerView.Adapter<PropertyRecycl
             property_profile_intent.putExtra("property_profile_address",property_list.getAddress_line_1() + " " + property_list.getAddress_line_2());
             property_profile_intent.putExtra("property_profile_rental","RM " + property_list.getMonthly_rental());
             property_profile_intent.putExtra("property_profile_info",property_list.getExtra_info());
+            property_profile_intent.putExtra("property_profile_id",property_list.getProperty_id());
 
             this.context.startActivity(property_profile_intent);
 

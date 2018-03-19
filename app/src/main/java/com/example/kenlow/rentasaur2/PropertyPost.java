@@ -12,10 +12,8 @@ public class PropertyPost {
     private String address_line_1;
     private String address_line_2;
     private String extra_info;
-
-
-
     private String monthly_rental;
+    private String property_id;
 
     public PropertyPost(){
 
@@ -24,7 +22,7 @@ public class PropertyPost {
 
 
     public PropertyPost(String user_id, String image_url, String desc, String image_thumb, String address_line_1, String address_line_2,
-    String extra_info, String monthly_rental) {
+                        String extra_info, String monthly_rental, String property_id) {
         this.user_id = user_id;
         this.image_url = image_url;
         this.desc = desc;
@@ -33,6 +31,7 @@ public class PropertyPost {
         this.address_line_2 = address_line_2;
         this.extra_info = extra_info;
         this.monthly_rental = monthly_rental;
+        this.property_id = property_id;
     }
 
     public String image_thumb;
@@ -101,4 +100,11 @@ public class PropertyPost {
         this.monthly_rental = monthly_rental;
     }
 
+    public String getProperty_id() {
+        return property_id;
+    }
+
+    public void setProperty_id(String property_id) {
+        this.property_id = property_id;
+    }
 }

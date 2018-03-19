@@ -28,6 +28,7 @@ public class PropertyProfile extends AppCompatActivity {
     private static final String TAG = "PropertyProfile";
     private FirebaseFirestore firebaseFirestore;
     public List<PropertyPost> property_list;
+    public String property_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +53,15 @@ public class PropertyProfile extends AppCompatActivity {
                 getIntent().hasExtra("property_profile_title") &&
                 getIntent().hasExtra("property_profile_address") &&
                 getIntent().hasExtra("property_profile_rental") &&
-                getIntent().hasExtra("property_profile_info")){
+                getIntent().hasExtra("property_profile_info") &&
+                getIntent().hasExtra("property_profile_id")){
 
             String property_imageUrl = getIntent().getStringExtra("property_profile_image");
             String property_name = getIntent().getStringExtra("property_profile_title");
             String property_addr = getIntent().getStringExtra("property_profile_address");
             String property_rental = getIntent().getStringExtra("property_profile_rental");
             String property_info = getIntent().getStringExtra("property_profile_info");
+            property_id = getIntent().getStringExtra("property_profile_id");
 
             setImage(property_imageUrl, property_name, property_addr, property_rental, property_info);
         }
@@ -124,7 +127,7 @@ public class PropertyProfile extends AppCompatActivity {
 
     private void deleteItem(int index) {
         firebaseFirestore.collection("Posts")
-                .document("")
+                .document(property_id)
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

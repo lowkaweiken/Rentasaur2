@@ -25,6 +25,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -162,7 +163,7 @@ public class NewPostActivity extends AppCompatActivity {
 
 
                                         //Create an object
-                                        Map<String, Object> postMap = new HashMap<>();
+                                        final Map<String, Object> postMap = new HashMap<>();
                                         postMap.put("image_url", downloadUri);
                                         postMap.put("image_thumb", downloadthumbUri);
                                         postMap.put("desc", desc);
@@ -197,7 +198,15 @@ public class NewPostActivity extends AppCompatActivity {
                                         }).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                             @Override
                                             public void onSuccess(DocumentReference documentReference) {
-                                                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                                String propertyID = documentReference.getId();
+                                                Log.d(TAG, "DocumentSnapshot added with ID: " + propertyID);
+
+                                                Map<String, Object> postMap = new HashMap<>();
+                                                postMap.put("property_id", propertyID);
+
+                                                firebaseFirestore.collection("Posts").document(propertyID)
+                                                        .set(postMap, SetOptions.merge());
+
                                             }
                                         });
 
