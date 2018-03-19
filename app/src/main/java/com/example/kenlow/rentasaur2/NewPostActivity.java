@@ -105,6 +105,8 @@ public class NewPostActivity extends AppCompatActivity {
             }
         });
 
+        newPostBtn.setEnabled(true);
+
         newPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,6 +115,7 @@ public class NewPostActivity extends AppCompatActivity {
 
                 // check if description is not empty
                 if(!TextUtils.isEmpty(desc) && postImageUri != null){
+                    newPostBtn.setEnabled(false);
                     newPostProgress.setVisibility(View.VISIBLE);
 
                     // Because there can be multiple images for a user. We create a random ID for each image
@@ -174,8 +177,6 @@ public class NewPostActivity extends AppCompatActivity {
                                         postMap.put("user_id", current_user_id);
                                         postMap.put("timestamp", FieldValue.serverTimestamp());
 
-
-
                                         firebaseFirestore.collection("Posts")
                                                 .add(postMap)
                                                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
@@ -193,6 +194,7 @@ public class NewPostActivity extends AppCompatActivity {
                                                 }else{
 
                                                 }
+
                                                 newPostProgress.setVisibility(View.INVISIBLE);
                                             }
                                         }).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
