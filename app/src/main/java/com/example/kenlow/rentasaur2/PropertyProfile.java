@@ -109,12 +109,9 @@ public class PropertyProfile extends AppCompatActivity {
 
                 // Option to logout
                 case R.id.action_delete_btn:
-
-                    // Do something here
-//                Toast.makeText(PropertyProfile.this, "You tried to delete this property", Toast.LENGTH_LONG).show();
-
                     //--------------------------------Testing-------------------------------------//
                     deleteItem(item.getOrder());
+                    Toast.makeText(PropertyProfile.this, "Property deleted", Toast.LENGTH_LONG).show();
                     return super.onOptionsItemSelected(item);
 
 
