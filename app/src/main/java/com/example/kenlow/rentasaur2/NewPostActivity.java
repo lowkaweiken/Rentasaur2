@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -84,7 +86,7 @@ public class NewPostActivity extends AppCompatActivity {
 
         newPostToolbar = findViewById(R.id.new_post_toolbar);
         setSupportActionBar(newPostToolbar);
-        getSupportActionBar().setTitle("Add New Post");
+        getSupportActionBar().setTitle("Add New Property");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         newPostImage = findViewById(R.id.new_post_image);
@@ -102,6 +104,8 @@ public class NewPostActivity extends AppCompatActivity {
             Toast.makeText(NewPostActivity.this, property_id, Toast.LENGTH_LONG).show();
 
             //------------------------Testing--------------------------//
+            getSupportActionBar().setTitle("Edit Property");
+
             firebaseFirestore.collection("Posts").document(property_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -115,12 +119,23 @@ public class NewPostActivity extends AppCompatActivity {
                             String Address_line_2 = task.getResult().getString("address_line_2");
                             String Monthly_rental = task.getResult().getString("monthly_rental");
                             String Extra_info = task.getResult().getString("extra_info");
+                            String Image_url = task.getResult().getString("image_url");
 
+
+                            postImageUri = Uri.parse(Image_url);
                             newPostDesc.setText(Desc);
                             address_line_1.setText(Address_line_1);
                             address_line_2.setText(Address_line_2);
                             monthly_rental.setText(Monthly_rental);
                             extra_info.setText(Extra_info);
+
+                            RequestOptions placeholderRequest = new RequestOptions();
+                            placeholderRequest.placeholder(R.drawable.post_placeholder);
+
+                            // Glide library used to retrieve image from Firestore
+                            Glide.with(NewPostActivity.this).setDefaultRequestOptions(placeholderRequest).load(Image_url).into(newPostImage);
+
+
 
                         } else {
                             Toast.makeText(NewPostActivity.this, "Data Doesn't Exists ", Toast.LENGTH_LONG).show();
