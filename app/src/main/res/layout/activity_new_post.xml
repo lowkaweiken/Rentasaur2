@@ -73,8 +73,9 @@
                 android:layout_marginTop="0dp"
                 android:ems="10"
                 android:hint="@string/post_desc_hint"
-                android:inputType="none"
-                android:padding="16dp" />
+                android:inputType="text"
+                android:padding="16dp"
+                android:singleLine="true" />
 
             <TextView
                 android:id="@+id/address_1_title"
@@ -138,7 +139,8 @@
                 android:ems="10"
                 android:hint="Monthly Rental"
                 android:inputType="numberDecimal"
-                android:padding="16dp" />
+                android:padding="16dp"
+                android:singleLine="true" />
 
             <TextView
                 android:id="@+id/extra_info_title"

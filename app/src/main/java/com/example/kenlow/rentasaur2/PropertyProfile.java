@@ -2,12 +2,14 @@ package com.example.kenlow.rentasaur2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,6 +31,7 @@ public class PropertyProfile extends AppCompatActivity {
     private FirebaseFirestore firebaseFirestore;
     public List<PropertyPost> property_list;
     public String property_id;
+    public FloatingActionButton edit_property_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +45,18 @@ public class PropertyProfile extends AppCompatActivity {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
+        edit_property_btn = findViewById(R.id.edit_property_btn);
+
         getIncomingIntent();
 
+        edit_property_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent editIntent = new Intent(PropertyProfile.this, NewPostActivity.class);
+                editIntent.putExtra("property_profile_id", property_id);
+                startActivity(editIntent);
+            }
+        });
 
     }
 
@@ -67,6 +80,8 @@ public class PropertyProfile extends AppCompatActivity {
         }
 
     }
+
+
 
     private void setImage(String property_imageUrl, String property_name, String property_addr, String property_rental, String property_info){
 

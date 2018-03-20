@@ -64,6 +64,7 @@ public class NewPostActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
     private String current_user_id;
+    String property_id;
 
     private Bitmap compressedImageFile;
 
@@ -93,6 +94,21 @@ public class NewPostActivity extends AppCompatActivity {
         monthly_rental = findViewById(R.id.new_post_rental);
         newPostBtn = findViewById(R.id.post_btn);
         newPostProgress = findViewById(R.id.new_post_progress);
+
+
+        if(getIntent().hasExtra("property_profile_id")){
+            property_id = getIntent().getStringExtra("property_profile_id");
+            Toast.makeText(NewPostActivity.this, property_id, Toast.LENGTH_LONG).show();
+        }
+
+
+
+
+
+
+
+
+
 
         newPostImage.setOnClickListener(new View.OnClickListener() {
             @Override
