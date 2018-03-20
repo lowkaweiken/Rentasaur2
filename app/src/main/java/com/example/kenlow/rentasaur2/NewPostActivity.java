@@ -67,7 +67,8 @@ public class NewPostActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
     private String current_user_id;
-    String property_id;
+    public String property_id = null;
+    public String Image_url;
 
     private Bitmap compressedImageFile;
 
@@ -101,6 +102,7 @@ public class NewPostActivity extends AppCompatActivity {
 
         if (getIntent().hasExtra("property_profile_id")) {
             property_id = getIntent().getStringExtra("property_profile_id");
+            newPostBtn.setText("UPDATE");
             Toast.makeText(NewPostActivity.this, property_id, Toast.LENGTH_LONG).show();
 
             //------------------------Testing--------------------------//
@@ -119,7 +121,7 @@ public class NewPostActivity extends AppCompatActivity {
                             String Address_line_2 = task.getResult().getString("address_line_2");
                             String Monthly_rental = task.getResult().getString("monthly_rental");
                             String Extra_info = task.getResult().getString("extra_info");
-                            String Image_url = task.getResult().getString("image_url");
+                            Image_url = task.getResult().getString("image_url");
 
 
                             postImageUri = Uri.parse(Image_url);
@@ -220,6 +222,10 @@ public class NewPostActivity extends AppCompatActivity {
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                         String downloadthumbUri = taskSnapshot.getDownloadUrl().toString();
 
+                                        if(property_id != null){
+                                            UpdateData(downloadUri, desc, Address_line_1, Address_line_2, Monthly_rental, Extra_info);
+                                            return;
+                                        }
 
                                         //Create an object
                                         final Map<String, Object> postMap = new HashMap<>();
@@ -286,6 +292,32 @@ public class NewPostActivity extends AppCompatActivity {
 
 
                 }
+
+            }
+
+            private void UpdateData(String downloadUri, String desc, String Address_line_1, String Address_line_2, String Monthly_rental, String Extra_info) {
+                DocumentReference propertyRef = firebaseFirestore.collection("Posts").document(property_id);
+                if(downloadUri == null){
+                    propertyRef.update("image_url", Image_url);
+                }else{
+                    propertyRef.update("image_url", downloadUri);
+                }
+
+                propertyRef.update("desc", desc);
+                propertyRef.update("address_line_1", Address_line_1);
+                propertyRef.update("address_line_2", Address_line_2);
+                propertyRef.update("monthly_rental", Monthly_rental);
+                propertyRef.update("extra_info", Extra_info).addOnSuccessListener(new OnSuccessListener < Void > () {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(NewPostActivity.this, "Updated Successfully",
+                                Toast.LENGTH_SHORT).show();
+                        Intent mainIntent = new Intent(NewPostActivity.this, MainActivity.class);
+                        startActivity(mainIntent);
+                        finish();
+                    }
+                });
+
 
             }
         });
