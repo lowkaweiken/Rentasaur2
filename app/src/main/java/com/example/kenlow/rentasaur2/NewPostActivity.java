@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -96,18 +97,42 @@ public class NewPostActivity extends AppCompatActivity {
         newPostProgress = findViewById(R.id.new_post_progress);
 
 
-        if(getIntent().hasExtra("property_profile_id")){
+        if (getIntent().hasExtra("property_profile_id")) {
             property_id = getIntent().getStringExtra("property_profile_id");
             Toast.makeText(NewPostActivity.this, property_id, Toast.LENGTH_LONG).show();
+
+            //------------------------Testing--------------------------//
+            firebaseFirestore.collection("Posts").document(property_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                    if (task.isSuccessful()) {
+                        if (task.getResult().exists()) {
+
+                            // Assign the name and image URI. It must be the same as stated in Firestore
+                            String Desc = task.getResult().getString("desc");
+                            String Address_line_1 = task.getResult().getString("address_line_1");
+                            String Address_line_2 = task.getResult().getString("address_line_2");
+                            String Monthly_rental = task.getResult().getString("monthly_rental");
+                            String Extra_info = task.getResult().getString("extra_info");
+
+                            newPostDesc.setText(Desc);
+                            address_line_1.setText(Address_line_1);
+                            address_line_2.setText(Address_line_2);
+                            monthly_rental.setText(Monthly_rental);
+                            extra_info.setText(Extra_info);
+
+                        } else {
+                            Toast.makeText(NewPostActivity.this, "Data Doesn't Exists ", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                }
+
+            });
+
+
         }
-
-
-
-
-
-
-
-
 
 
         newPostImage.setOnClickListener(new View.OnClickListener() {
@@ -115,8 +140,8 @@ public class NewPostActivity extends AppCompatActivity {
             public void onClick(View v) {
                 CropImage.activity()
                         .setGuidelines(CropImageView.Guidelines.ON)
-                        .setMinCropResultSize(512,512)
-                        .setAspectRatio(1,1)
+                        .setMinCropResultSize(512, 512)
+                        .setAspectRatio(1, 1)
                         .start(NewPostActivity.this);
             }
         });
@@ -130,7 +155,7 @@ public class NewPostActivity extends AppCompatActivity {
                 final String desc = newPostDesc.getText().toString();
 
                 // check if description is not empty
-                if(!TextUtils.isEmpty(desc) && postImageUri != null){
+                if (!TextUtils.isEmpty(desc) && postImageUri != null) {
                     newPostBtn.setEnabled(false);
                     newPostProgress.setVisibility(View.VISIBLE);
 
@@ -149,7 +174,7 @@ public class NewPostActivity extends AppCompatActivity {
 
                             final String downloadUri = task.getResult().getDownloadUrl().toString();
 
-                            if(task.isSuccessful()){
+                            if (task.isSuccessful()) {
 
                                 // Create thumbnail by compressing images
                                 File newImageFile = new File(postImageUri.getPath());
@@ -196,24 +221,24 @@ public class NewPostActivity extends AppCompatActivity {
                                         firebaseFirestore.collection("Posts")
                                                 .add(postMap)
                                                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentReference> task) {
 
-                                                if(task.isSuccessful()){
+                                                        if (task.isSuccessful()) {
 
-                                                    Toast.makeText(NewPostActivity.this, "Post was added", Toast.LENGTH_LONG).show();
-                                                    Intent mainIntent = new Intent(NewPostActivity.this, MainActivity.class);
-                                                    startActivity(mainIntent);
-                                                    finish();
+                                                            Toast.makeText(NewPostActivity.this, "Post was added", Toast.LENGTH_LONG).show();
+                                                            Intent mainIntent = new Intent(NewPostActivity.this, MainActivity.class);
+                                                            startActivity(mainIntent);
+                                                            finish();
 
 
-                                                }else{
+                                                        } else {
 
-                                                }
+                                                        }
 
-                                                newPostProgress.setVisibility(View.INVISIBLE);
-                                            }
-                                        }).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                        newPostProgress.setVisibility(View.INVISIBLE);
+                                                    }
+                                                }).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                             @Override
                                             public void onSuccess(DocumentReference documentReference) {
                                                 String propertyID = documentReference.getId();
@@ -227,9 +252,6 @@ public class NewPostActivity extends AppCompatActivity {
 
                                             }
                                         });
-
-
-
 
 
                                     }
@@ -246,7 +268,6 @@ public class NewPostActivity extends AppCompatActivity {
                             }
                         }
                     });
-
 
 
                 }
