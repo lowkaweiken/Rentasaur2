@@ -322,7 +322,6 @@ public class NewPostActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     @Override
