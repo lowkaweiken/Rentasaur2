@@ -161,22 +161,5 @@ public class PropertyRecyclerAdapter extends RecyclerView.Adapter<PropertyRecycl
 
         }
 
-
-//        public void setOwnerData(String name, String image){
-//
-//            propertyOwnerImage = mView.findViewById(R.id.property_owner_image);
-//            propertyOwnerName = mView.findViewById(R.id.property_owner_name);
-//
-//            propertyOwnerName.setText(name);
-//
-//            // Placeholder thumbnail
-//            RequestOptions placeholderOption = new RequestOptions();
-//            placeholderOption.placeholder(R.drawable.profile_placeholder);
-//
-//            Glide.with(context).applyDefaultRequestOptions(placeholderOption).load(image).into(propertyOwnerImage);
-//
-//
-//        }
-
     }
 }

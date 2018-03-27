@@ -42,6 +42,9 @@ public class PropertyProfile extends AppCompatActivity {
     public FloatingActionButton edit_property_btn;
     private static final int CONTACT_PICKER_REQUEST = 991;
 
+    private String tenantName;
+    private String tenantPhone;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,15 +144,12 @@ public class PropertyProfile extends AppCompatActivity {
                     return super.onOptionsItemSelected(item);
 
                 case R.id.action_add_tenant_btn:
-                    //--------------------------------Testing-------------------------------------//
 
-//                    Intent TenantIntent = new Intent(PropertyProfile.this, NewTenantActivity.class);
-//                    TenantIntent.putExtra("property_profile_id", property_id);
-//                    startActivity(TenantIntent);
+                    //--------------------------------Testing-------------------------------------//
 
                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
 
-
+                    //Checking if permission is granted
                     if (ContextCompat.checkSelfPermission(PropertyProfile.this, android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
 
                         Toast.makeText(PropertyProfile.this, "Permission Denied", Toast.LENGTH_LONG).show();
@@ -163,8 +163,6 @@ public class PropertyProfile extends AppCompatActivity {
                         // If the build version is Lollipop and below, permission is already granted, so just go into image picker
                         addTenant();
                     }
-
-//                    Toast.makeText(PropertyProfile.this, "Going to Add Tenant Screen", Toast.LENGTH_LONG).show();
 
 
                     return super.onOptionsItemSelected(item);
@@ -213,6 +211,22 @@ public class PropertyProfile extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 List<ContactResult> results = MultiContactPicker.obtainResult(data);
                 Log.d("MyTag", results.get(0).getDisplayName());
+                Log.d("MyTag", String.valueOf(results.get(0).getPhoneNumbers()));
+
+
+                tenantName = results.get(0).getDisplayName();
+                tenantPhone = String.valueOf(results.get(0).getPhoneNumbers());
+
+                Intent TenantIntent = new Intent(PropertyProfile.this, NewTenantActivity.class);
+                TenantIntent.putExtra("property_profile_id", property_id);
+                TenantIntent.putExtra("tenant_name", tenantName);
+                TenantIntent.putExtra("tenant_phone", tenantPhone);
+                startActivity(TenantIntent);
+
+
+
+
+
             } else if (resultCode == RESULT_CANCELED) {
                 System.out.println("User closed the picker without selecting items.");
             }

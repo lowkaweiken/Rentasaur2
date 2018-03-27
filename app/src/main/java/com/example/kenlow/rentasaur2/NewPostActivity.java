@@ -123,7 +123,7 @@ public class NewPostActivity extends AppCompatActivity {
                             String Extra_info = task.getResult().getString("extra_info");
                             Image_url = task.getResult().getString("image_url");
 
-
+                            // Replace the fields with existing data
                             postImageUri = Uri.parse(Image_url);
                             newPostDesc.setText(Desc);
                             address_line_1.setText(Address_line_1);
