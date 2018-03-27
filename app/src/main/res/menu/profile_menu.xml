@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/action_add_tenant_btn"
+        android:icon="@mipmap/ic_add_tenant"
+        android:title="@string/action_add_tenant"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_delete_btn"
         android:title="@string/action_delete_text" />
 </menu>

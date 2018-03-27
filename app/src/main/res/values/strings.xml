@@ -24,6 +24,7 @@
     <string name="post_addr_hint">Add Address Line 1</string>
     <string name="new_post_info_hint">Extra Information</string>
     <string name="action_delete_text">Delete</string>
+    <string name="action_add_tenant">add_tenant</string>
 
 
 </resources>

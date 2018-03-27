@@ -1,8 +1,14 @@
 package com.example.kenlow.rentasaur2;
 
+import android.*;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +27,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.wafflecopter.multicontactpicker.MultiContactPicker;
+import com.wafflecopter.multicontactpicker.ContactResult;
 
 import java.util.List;
 
@@ -32,6 +40,7 @@ public class PropertyProfile extends AppCompatActivity {
     public List<PropertyPost> property_list;
     public String property_id;
     public FloatingActionButton edit_property_btn;
+    private static final int CONTACT_PICKER_REQUEST = 991;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +66,8 @@ public class PropertyProfile extends AppCompatActivity {
                 startActivity(editIntent);
             }
         });
+
+
 
     }
 
@@ -124,9 +135,38 @@ public class PropertyProfile extends AppCompatActivity {
 
                 // Option to logout
                 case R.id.action_delete_btn:
-                    //--------------------------------Testing-------------------------------------//
+
                     deleteItem(item.getOrder());
                     Toast.makeText(PropertyProfile.this, "Property deleted", Toast.LENGTH_LONG).show();
+                    return super.onOptionsItemSelected(item);
+
+                case R.id.action_add_tenant_btn:
+                    //--------------------------------Testing-------------------------------------//
+
+//                    Intent TenantIntent = new Intent(PropertyProfile.this, NewTenantActivity.class);
+//                    TenantIntent.putExtra("property_profile_id", property_id);
+//                    startActivity(TenantIntent);
+
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+
+
+                    if (ContextCompat.checkSelfPermission(PropertyProfile.this, android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
+
+                        Toast.makeText(PropertyProfile.this, "Permission Denied", Toast.LENGTH_LONG).show();
+                        ActivityCompat.requestPermissions(PropertyProfile.this, new String[]{android.Manifest.permission.READ_CONTACTS}, 1);
+
+                    } else {
+                        addTenant();
+                    }
+
+                    } else {
+                        // If the build version is Lollipop and below, permission is already granted, so just go into image picker
+                        addTenant();
+                    }
+
+//                    Toast.makeText(PropertyProfile.this, "Going to Add Tenant Screen", Toast.LENGTH_LONG).show();
+
+
                     return super.onOptionsItemSelected(item);
 
 
@@ -136,6 +176,20 @@ public class PropertyProfile extends AppCompatActivity {
 
             }
         }
+
+    private void addTenant() {
+
+            new MultiContactPicker.Builder(PropertyProfile.this) //Activity/fragment context
+                    .theme(R.style.MyCustomPickerTheme) //Optional - default: MultiContactPicker.Azure
+                    .hideScrollbar(false) //Optional - default: false
+                    .showTrack(true) //Optional - default: true
+                    .searchIconColor(Color.WHITE) //Option - default: White
+                    .handleColor(ContextCompat.getColor(PropertyProfile.this, R.color.colorPrimary)) //Optional - default: Azure Blue
+                    .bubbleColor(ContextCompat.getColor(PropertyProfile.this, R.color.colorPrimary)) //Optional - default: Azure Blue
+                    .bubbleTextColor(Color.WHITE) //Optional - default: White
+                    .showPickerForResult(CONTACT_PICKER_REQUEST);
+
+    }
 
     private void deleteItem(int index) {
         firebaseFirestore.collection("Posts")
@@ -152,5 +206,17 @@ public class PropertyProfile extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CONTACT_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                List<ContactResult> results = MultiContactPicker.obtainResult(data);
+                Log.d("MyTag", results.get(0).getDisplayName());
+            } else if (resultCode == RESULT_CANCELED) {
+                System.out.println("User closed the picker without selecting items.");
+            }
+        }
+    }
 
 }
