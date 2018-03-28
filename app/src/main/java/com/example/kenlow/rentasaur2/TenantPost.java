@@ -4,7 +4,7 @@ package com.example.kenlow.rentasaur2;
  * Created by Ken Low on 28-Mar-18.
  */
 
-public class TenantPost {
+public class TenantPost extends TenantID{
 
     public String tenant_name;
     public String tenant_phone;

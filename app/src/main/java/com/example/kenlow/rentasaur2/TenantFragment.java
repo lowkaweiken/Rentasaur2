@@ -42,7 +42,7 @@ public class TenantFragment extends Fragment {
         tenant_list = new ArrayList<>();
         tenant_list_view = view.findViewById(R.id.tenant_list_view);
 
-        tenantRecyclerAdapter = new TenantRecyclerAdapter(tenant_list);
+        tenantRecyclerAdapter = new TenantRecyclerAdapter(getContext(),tenant_list);
 
         tenant_list_view.setLayoutManager(new LinearLayoutManager(getActivity()));
         tenant_list_view.setAdapter(tenantRecyclerAdapter);
@@ -58,7 +58,9 @@ public class TenantFragment extends Fragment {
 
                     if(doc.getType() == DocumentChange.Type.ADDED){
 
-                        TenantPost tenantPost = doc.getDocument().toObject(TenantPost.class);
+                        String tenantId = doc.getDocument().getId();
+
+                        TenantPost tenantPost = doc.getDocument().toObject(TenantPost.class).withId(tenantId);
                         tenant_list.add(tenantPost);
 
                         tenantRecyclerAdapter.notifyDataSetChanged();
