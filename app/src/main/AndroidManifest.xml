@@ -48,7 +48,9 @@
             android:name=".NewTenantActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".TenantProfile"></activity>
+        <activity android:name=".TenantProfile"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
