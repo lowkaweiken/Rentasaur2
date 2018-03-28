@@ -39,6 +39,7 @@ public class PropertyProfile extends AppCompatActivity {
     private FirebaseFirestore firebaseFirestore;
     public List<PropertyPost> property_list;
     public String property_id;
+    public String property_name;
     public FloatingActionButton edit_property_btn;
     private static final int CONTACT_PICKER_REQUEST = 991;
 
@@ -84,7 +85,7 @@ public class PropertyProfile extends AppCompatActivity {
                 getIntent().hasExtra("property_profile_id")){
 
             String property_imageUrl = getIntent().getStringExtra("property_profile_image");
-            String property_name = getIntent().getStringExtra("property_profile_title");
+            property_name = getIntent().getStringExtra("property_profile_title");
             String property_addr = getIntent().getStringExtra("property_profile_address");
             String property_rental = getIntent().getStringExtra("property_profile_rental");
             String property_info = getIntent().getStringExtra("property_profile_info");
@@ -219,6 +220,7 @@ public class PropertyProfile extends AppCompatActivity {
 
                 Intent TenantIntent = new Intent(PropertyProfile.this, NewTenantActivity.class);
                 TenantIntent.putExtra("property_profile_id", property_id);
+                TenantIntent.putExtra("property_profile_name", property_name);
                 TenantIntent.putExtra("tenant_name", tenantName);
                 TenantIntent.putExtra("tenant_phone", tenantPhone);
                 startActivity(TenantIntent);

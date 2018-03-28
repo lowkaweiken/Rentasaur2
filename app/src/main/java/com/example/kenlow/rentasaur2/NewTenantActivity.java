@@ -31,6 +31,7 @@ public class NewTenantActivity extends AppCompatActivity {
 
     private Toolbar newTenantToolbar;
     private String property_id = null;
+    private String property_name;
     private String tenantName;
     private String tenantPhone;
 
@@ -68,15 +69,16 @@ public class NewTenantActivity extends AppCompatActivity {
 
         if (getIntent().hasExtra("property_profile_id") &&
                 getIntent().hasExtra("tenant_name") &&
+                getIntent().hasExtra("property_profile_name") &&
                 getIntent().hasExtra("tenant_phone")) {
             property_id = getIntent().getStringExtra("property_profile_id");
+            property_name = getIntent().getStringExtra("property_profile_name");
+
+            Log.d(TAG, "Property Name: " + property_name);
+
             tenantName = getIntent().getStringExtra("tenant_name");
             tenantPhone = getIntent().getStringExtra("tenant_phone");
             Toast.makeText(NewTenantActivity.this, property_id, Toast.LENGTH_LONG).show();
-
-            Log.d("PROPERTY ID: ",property_id );
-            Log.d("TENANT NAME: ",tenantName );
-            Log.d("TENANT PHONE: ",tenantPhone );
 
 
             newTenantName.setText(tenantName);
@@ -101,6 +103,7 @@ public class NewTenantActivity extends AppCompatActivity {
                     tenantMap.put("tenant_name", tenantName);
                     tenantMap.put("tenant_phone", tenantPhone);
                     tenantMap.put("property_id", property_id);
+                    tenantMap.put("property_name", property_name);
                     tenantMap.put("user_id", current_user_id);
 
                     firebaseFirestore.collection("Tenant")
