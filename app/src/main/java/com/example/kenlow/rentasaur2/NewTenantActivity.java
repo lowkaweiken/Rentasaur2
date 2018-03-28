@@ -103,7 +103,7 @@ public class NewTenantActivity extends AppCompatActivity {
                     tenantMap.put("tenant_name", tenantName);
                     tenantMap.put("tenant_phone", tenantPhone);
                     tenantMap.put("property_id", property_id);
-                    tenantMap.put("property_name", property_name);
+                    tenantMap.put("tenant_property", property_name);
                     tenantMap.put("user_id", current_user_id);
 
                     firebaseFirestore.collection("Tenant")
