@@ -1,11 +1,7 @@
 package com.example.kenlow.rentasaur2;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -19,22 +15,16 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.StorageReference;
-import com.wafflecopter.multicontactpicker.ContactResult;
-import com.wafflecopter.multicontactpicker.MultiContactPicker;
+
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class NewTenantActivity extends AppCompatActivity {
@@ -51,8 +41,12 @@ public class NewTenantActivity extends AppCompatActivity {
 
     private static final String TAG = "NewTenantActivity";
 
-    private StorageReference storageReference;
     private FirebaseFirestore firebaseFirestore;
+    private FirebaseAuth firebaseAuth;
+
+    private String current_user_id;
+    public String tenant_id = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +58,9 @@ public class NewTenantActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Add New Tenant");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        storageReference = FirebaseStorage.getInstance().getReference();
         firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        current_user_id = firebaseAuth.getCurrentUser().getUid();
 
         newTenantName = findViewById(R.id.new_tenant_name);
         newTenantPhone = findViewById(R.id.new_tenant_phone);
@@ -89,6 +84,8 @@ public class NewTenantActivity extends AppCompatActivity {
 
         }
 
+        tenant_btn.setEnabled(true);
+
         tenant_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,10 +95,13 @@ public class NewTenantActivity extends AppCompatActivity {
 
                 if (!TextUtils.isEmpty(tenantName) && !TextUtils.isEmpty(tenantPhone)){
 
+                    tenant_btn.setEnabled(false);
+
                     final Map<String, Object> tenantMap = new HashMap<>();
                     tenantMap.put("tenant_name", tenantName);
                     tenantMap.put("tenant_phone", tenantPhone);
                     tenantMap.put("property_id", property_id);
+                    tenantMap.put("user_id", current_user_id);
 
                     firebaseFirestore.collection("Tenant")
                             .add(tenantMap)
@@ -117,11 +117,8 @@ public class NewTenantActivity extends AppCompatActivity {
                                         finish();
 
 
-                                    } else {
-
                                     }
-
-                                                                    }
+                                }
                             }).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
