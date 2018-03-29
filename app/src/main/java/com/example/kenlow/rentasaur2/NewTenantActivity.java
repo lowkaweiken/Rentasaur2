@@ -1,14 +1,17 @@
 package com.example.kenlow.rentasaur2;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -20,6 +23,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,6 +54,8 @@ public class NewTenantActivity extends AppCompatActivity {
     private String current_user_id;
     public String tenant_id = null;
 
+    private DatePickerDialog picker;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +76,24 @@ public class NewTenantActivity extends AppCompatActivity {
 
         newTenantMonthlyRental = findViewById(R.id.new_tenant_monthly_rental);
         newTenantEmail = findViewById((R.id.new_tenant_email));
-        newTenantStartDate = findViewById(R.id.new_tenant_start_date);
-        newTenantEndDate = findViewById(R.id.new_tenant_end_date);
 
+        newTenantStartDate = findViewById(R.id.new_tenant_start_date);
+        newTenantStartDate.setInputType(InputType.TYPE_NULL);
+        newTenantStartDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayStartCalendar();
+            }
+        });
+
+        newTenantEndDate = findViewById(R.id.new_tenant_end_date);
+        newTenantEndDate.setInputType(InputType.TYPE_NULL);
+        newTenantEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayEndCalendar();
+            }
+        });
 
         tenant_btn = findViewById(R.id.tenant_btn);
 
@@ -167,4 +188,38 @@ public class NewTenantActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void displayStartCalendar() {
+        final Calendar cldr = Calendar.getInstance();
+        int day = cldr.get(Calendar.DAY_OF_MONTH);
+        int month = cldr.get(Calendar.MONTH);
+        int year = cldr.get(Calendar.YEAR);
+        // date picker dialog
+        picker = new DatePickerDialog(NewTenantActivity.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        newTenantStartDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                    }
+                }, year, month, day);
+        picker.show();
+    }
+
+    private void displayEndCalendar(){
+        final Calendar cldr = Calendar.getInstance();
+        int day = cldr.get(Calendar.DAY_OF_MONTH);
+        int month = cldr.get(Calendar.MONTH);
+        int year = cldr.get(Calendar.YEAR);
+        // date picker dialog
+        picker = new DatePickerDialog(NewTenantActivity.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        newTenantEndDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                    }
+                }, year, month, day);
+        picker.show();
+
+    }
+
 }
