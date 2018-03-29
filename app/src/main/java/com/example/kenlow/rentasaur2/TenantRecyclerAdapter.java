@@ -7,14 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -54,6 +52,17 @@ public class TenantRecyclerAdapter extends RecyclerView.Adapter<TenantRecyclerAd
 
         final String tenantPhone_data = tenant_list.get(position).getTenant_phone();
 
+//        public String tenant_monthly_rental;
+//        public String tenant_email;
+//        public String tenant_start_date;
+//        public String tenant_end_date;
+
+        final String tenantMonthlyRental_data = tenant_list.get(position).getTenant_monthly_rental();
+        final String tenantEmail_data = tenant_list.get(position).getTenant_email();
+        final String tenant_start_date_data = tenant_list.get(position).getTenant_start_date();
+        final String tenant_end_date_data = tenant_list.get(position).getTenant_end_date();
+
+
         //get first letter of each String item
         String firstLetter = String.valueOf(tenantName_data.charAt(0));
 
@@ -78,7 +87,14 @@ public class TenantRecyclerAdapter extends RecyclerView.Adapter<TenantRecyclerAd
                 tenant_profile_intent.putExtra("tenant_id", tenant_id);
                 tenant_profile_intent.putExtra("tenant_property", tenantProperty_name);
                 tenant_profile_intent.putExtra("tenant_phone",tenantPhone_data);
+
+                tenant_profile_intent.putExtra("tenant_monthly_rental", tenantMonthlyRental_data);
+                tenant_profile_intent.putExtra("tenant_email",tenantEmail_data);
+                tenant_profile_intent.putExtra("tenant_start_date", tenant_start_date_data);
+                tenant_profile_intent.putExtra("tenant_end_date",tenant_end_date_data);
+
                 context.startActivity(tenant_profile_intent);
+
             }
         });
     }

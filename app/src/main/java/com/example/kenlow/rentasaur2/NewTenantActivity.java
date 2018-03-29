@@ -1,9 +1,9 @@
 package com.example.kenlow.rentasaur2;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,17 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
-import com.google.firebase.storage.FirebaseStorage;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.storage.StorageReference;
-
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +33,12 @@ public class NewTenantActivity extends AppCompatActivity {
 
     private EditText newTenantName;
     private EditText newTenantPhone;
+
+    private EditText newTenantMonthlyRental;
+    private EditText newTenantEmail;
+    private EditText newTenantStartDate;
+    private EditText newTenantEndDate;
+
 
     private Button tenant_btn;
 
@@ -65,6 +67,13 @@ public class NewTenantActivity extends AppCompatActivity {
 
         newTenantName = findViewById(R.id.new_tenant_name);
         newTenantPhone = findViewById(R.id.new_tenant_phone);
+
+        newTenantMonthlyRental = findViewById(R.id.new_tenant_monthly_rental);
+        newTenantEmail = findViewById((R.id.new_tenant_email));
+        newTenantStartDate = findViewById(R.id.new_tenant_start_date);
+        newTenantEndDate = findViewById(R.id.new_tenant_end_date);
+
+
         tenant_btn = findViewById(R.id.tenant_btn);
 
         if (getIntent().hasExtra("property_profile_id") &&
@@ -95,6 +104,17 @@ public class NewTenantActivity extends AppCompatActivity {
                 final String tenantName = newTenantName.getText().toString();
                 final String tenantPhone = newTenantPhone.getText().toString();
 
+                final String tenantMonthlyRental = newTenantMonthlyRental.getText().toString();
+                final String tenantEmail = newTenantEmail.getText().toString();
+                final String tenantStartDate = newTenantStartDate.getText().toString();
+                final String tenantEndDate = newTenantEndDate.getText().toString();
+
+//                newTenantMonthlyRental = findViewById(R.id.new_tenant_monthly_rental);
+//                newTenantEmail = findViewById((R.id.new_tenant_email));
+//                newTenantStartDate = findViewById(R.id.new_tenant_start_date);
+//                newTenantEndDate
+
+
                 if (!TextUtils.isEmpty(tenantName) && !TextUtils.isEmpty(tenantPhone)){
 
                     tenant_btn.setEnabled(false);
@@ -102,6 +122,12 @@ public class NewTenantActivity extends AppCompatActivity {
                     final Map<String, Object> tenantMap = new HashMap<>();
                     tenantMap.put("tenant_name", tenantName);
                     tenantMap.put("tenant_phone", tenantPhone);
+
+                    tenantMap.put("tenant_monthly_rental",tenantMonthlyRental);
+                    tenantMap.put("tenant_email",tenantEmail);
+                    tenantMap.put("tenant_start_date",tenantStartDate);
+                    tenantMap.put("tenant_end_date",tenantEndDate);
+
                     tenantMap.put("property_id", property_id);
                     tenantMap.put("tenant_property", property_name);
                     tenantMap.put("user_id", current_user_id);
