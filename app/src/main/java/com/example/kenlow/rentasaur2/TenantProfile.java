@@ -1,11 +1,13 @@
 package com.example.kenlow.rentasaur2;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,12 +26,17 @@ public class TenantProfile extends AppCompatActivity {
     public String tenant_id;
     public String property_name;
     public String tenant_name;
-
+    private FloatingActionButton emailBtn;
+    public String tenantEmail;
+    public String tenantMonthlyRental;
+    public String tenantProperty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tenant_profile);
+        
+        emailBtn = findViewById(R.id.email_btn);
 
         Tenant_profile_toolbar = findViewById(R.id.tenant_profile_toolbar);
         setSupportActionBar(Tenant_profile_toolbar);
@@ -39,7 +46,34 @@ public class TenantProfile extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         getIncomingIntent();
+        
+        emailBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMail();
+            }
+        });
 
+    }
+
+    private void sendMail() {
+        String recipientList = tenantEmail;
+        String[] recipients = recipientList.split(",");
+
+        String subject = "Rent Due!";
+        String message = "Please pay your rent soon! " +
+                "\n\nProperty Name: " + tenantProperty +
+                "\n\nAmount Due: " + tenantMonthlyRental +
+                "\n\n\nThanks, " +
+                "\nYour Landlord";
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_EMAIL, recipients);
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, message);
+
+        intent.setType("message/rfc822");
+        startActivity(Intent.createChooser(intent, "Choose an email client"));
     }
 
     private void getIncomingIntent() {
@@ -60,11 +94,11 @@ public class TenantProfile extends AppCompatActivity {
 
             tenant_id = getIntent().getStringExtra("tenant_id");
             String tenantName = getIntent().getStringExtra("tenant_name");
-            String tenantProperty = getIntent().getStringExtra("tenant_property");
+            tenantProperty = getIntent().getStringExtra("tenant_property");
             String tenantPhone = getIntent().getStringExtra("tenant_phone");
 
-            String tenantMonthlyRental = getIntent().getStringExtra("tenant_monthly_rental");
-            String tenantEmail = getIntent().getStringExtra("tenant_email");
+            tenantMonthlyRental = getIntent().getStringExtra("tenant_monthly_rental");
+            tenantEmail = getIntent().getStringExtra("tenant_email");
             String tenantStartDate = getIntent().getStringExtra("tenant_start_date");
             String tenantEndDate = getIntent().getStringExtra("tenant_end_date");
 
