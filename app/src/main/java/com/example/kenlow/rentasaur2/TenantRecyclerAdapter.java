@@ -8,7 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 import org.w3c.dom.Text;
 
@@ -50,6 +54,17 @@ public class TenantRecyclerAdapter extends RecyclerView.Adapter<TenantRecyclerAd
 
         final String tenantPhone_data = tenant_list.get(position).getTenant_phone();
 
+        //get first letter of each String item
+        String firstLetter = String.valueOf(tenantName_data.charAt(0));
+
+        ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
+        // generate random color
+        int color = generator.getRandomColor();
+
+        TextDrawable drawable = TextDrawable.builder()
+                .buildRound(firstLetter, color); // radius in px
+
+        holder.imageView.setImageDrawable(drawable);
 
 
         final String tenant_id = tenant_list.get(position).tenantId;
@@ -78,9 +93,11 @@ public class TenantRecyclerAdapter extends RecyclerView.Adapter<TenantRecyclerAd
         private View mView;
         private TextView tenantNameView;
         private TextView tenantPropertyView;
+        private ImageView imageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            imageView = itemView.findViewById(R.id.avatar_image);
             mView = itemView;
         }
 
