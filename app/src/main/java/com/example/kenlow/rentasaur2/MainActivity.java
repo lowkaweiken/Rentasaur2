@@ -1,6 +1,7 @@
 package com.example.kenlow.rentasaur2;
 
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
@@ -13,13 +14,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+import android.databinding.DataBindingUtil;
 
+import com.example.kenlow.rentasaur2.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,10 +39,14 @@ public class MainActivity extends AppCompatActivity {
     private TenantFragment tenantFragment;
     private ExpensesFragment expensesFragment;
 
+    private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -45,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the toolbar
         mainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(mainToolbar);
+        setSupportActionBar(binding.mainToolbar);
 
         getSupportActionBar().setTitle("Rentasaur");
 
@@ -142,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        binding.searchView.setMenuItem(menu.findItem(R.id.action_search_btn));
 
         return true;
 

@@ -16,6 +16,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding {
+        enabled true
+    }
 }
 
 dependencies {
@@ -46,6 +49,8 @@ dependencies {
     compile 'com.github.broakenmedia:MultiContactPicker:1.6'
 
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
 }
 
 

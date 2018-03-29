@@ -3,8 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/action_search_btn"
         android:icon="@mipmap/action_search"
         android:title="@string/action_search_text"
+        android:orderInCategory="100"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_settings_btn"
