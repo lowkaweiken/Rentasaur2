@@ -60,23 +60,11 @@ public class TenantRecyclerAdapter extends RecyclerView.Adapter<TenantRecyclerAd
 
         final String tenantPhone_data = tenant_list.get(position).getTenant_phone();
 
-//        public String tenant_monthly_rental;
-//        public String tenant_email;
-//        public String tenant_start_date;
-//        public String tenant_end_date;
 
         final String tenantMonthlyRental_data = tenant_list.get(position).getTenant_monthly_rental();
         final String tenantEmail_data = tenant_list.get(position).getTenant_email();
         final String tenant_start_date_data = tenant_list.get(position).getTenant_start_date();
         final String tenant_end_date_data = tenant_list.get(position).getTenant_end_date();
-
-//        SimpleDateFormat format = new SimpleDateFormat ("dd/MM/yyyy");
-//        try{
-//            start_date = format.parse(tenant_end_date_data);
-//            end_date = format.parse(tenant_end_date_data);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
 
         startTime();
 
@@ -99,7 +87,7 @@ public class TenantRecyclerAdapter extends RecyclerView.Adapter<TenantRecyclerAd
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Tenant ID: " + tenant_id, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Tenant Profile Accessed Succesfully " , Toast.LENGTH_SHORT).show();
                 Intent tenant_profile_intent = new Intent(context, TenantProfile.class);
                 tenant_profile_intent.putExtra("tenant_name", tenantName_data);
                 tenant_profile_intent.putExtra("tenant_id", tenant_id);
@@ -136,7 +124,6 @@ public class TenantRecyclerAdapter extends RecyclerView.Adapter<TenantRecyclerAd
         return dueDate.getTimeInMillis() - today.getTimeInMillis();
 
     }
-    //-----------------------Logic Here------------------//
 
     @Override
     public int getItemCount() {

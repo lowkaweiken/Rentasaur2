@@ -57,7 +57,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout"
-        app:srcCompat="@mipmap/action_add" />
+        app:srcCompat="@mipmap/ic_edit" />
 
     <ImageView
         android:id="@+id/address_icon"

@@ -1,7 +1,5 @@
 package com.example.kenlow.rentasaur2;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,6 +25,9 @@ public class TenantFragment extends Fragment {
 
     private FirebaseFirestore firebaseFirestore;
     private TenantRecyclerAdapter tenantRecyclerAdapter;
+
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private String current_user_id;
 
     public TenantFragment() {
         // Required empty public constructor
@@ -47,10 +49,13 @@ public class TenantFragment extends Fragment {
         tenant_list_view.setLayoutManager(new LinearLayoutManager(getActivity()));
         tenant_list_view.setAdapter(tenantRecyclerAdapter);
 
+        mAuth = FirebaseAuth.getInstance();
+        current_user_id = mAuth.getCurrentUser().getUid();
+
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
-        firebaseFirestore.collection("Tenant").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        firebaseFirestore.collection("Tenant").whereEqualTo("user_id", current_user_id).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
 

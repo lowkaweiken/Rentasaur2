@@ -1,9 +1,9 @@
 package com.example.kenlow.rentasaur2;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,18 +14,11 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.List;
-
 public class TenantProfile extends AppCompatActivity {
 
     private Toolbar Tenant_profile_toolbar;
-    private static final String TAG = "TenantProfile";
     private FirebaseFirestore firebaseFirestore;
-    public List<TenantPost> tenant_list;
-    public String property_id;
     public String tenant_id;
-    public String property_name;
-    public String tenant_name;
     private FloatingActionButton emailBtn;
     public String tenantEmail;
     public String tenantMonthlyRental;
