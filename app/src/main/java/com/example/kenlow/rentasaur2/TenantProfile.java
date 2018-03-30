@@ -78,11 +78,6 @@ public class TenantProfile extends AppCompatActivity {
 
     private void getIncomingIntent() {
 
-//        tenant_profile_intent.putExtra("tenant_monthly_rental", tenantMonthlyRental_data);
-//        tenant_profile_intent.putExtra("tenant_email",tenantEmail_data);
-//        tenant_profile_intent.putExtra("tenant_start_date", tenant_start_date_data);
-//        tenant_profile_intent.putExtra("tenant_end_date",tenant_end_date_data);
-
         if (getIntent().hasExtra("tenant_id")
                 && getIntent().hasExtra("tenant_name")
                 && getIntent().hasExtra("tenant_property")

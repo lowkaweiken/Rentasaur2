@@ -2,8 +2,10 @@ package com.example.kenlow.rentasaur2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,8 @@ import android.widget.Toast;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,8 +26,12 @@ import java.util.List;
 
 public class TenantRecyclerAdapter extends RecyclerView.Adapter<TenantRecyclerAdapter.ViewHolder>{
 
+    private static final String TAG = "TENANTRECYCLERADAPTER";
     public List<TenantPost> tenant_list;
     public Context context;
+    public Date start_date;
+    public Date end_date;
+    public int daysRemaining;
 
     public TenantRecyclerAdapter(Context context, List<TenantPost> tenant_list){
         this.tenant_list = tenant_list;
@@ -62,6 +70,17 @@ public class TenantRecyclerAdapter extends RecyclerView.Adapter<TenantRecyclerAd
         final String tenant_start_date_data = tenant_list.get(position).getTenant_start_date();
         final String tenant_end_date_data = tenant_list.get(position).getTenant_end_date();
 
+//        SimpleDateFormat format = new SimpleDateFormat ("dd/MM/yyyy");
+//        try{
+//            start_date = format.parse(tenant_end_date_data);
+//            end_date = format.parse(tenant_end_date_data);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+
+        startTime();
+
+        holder.setDaysRemainingText("Rent Due in\n "+String.valueOf(daysRemaining) + " Days");
 
         //get first letter of each String item
         String firstLetter = String.valueOf(tenantName_data.charAt(0));
@@ -74,7 +93,6 @@ public class TenantRecyclerAdapter extends RecyclerView.Adapter<TenantRecyclerAd
                 .buildRound(firstLetter, color); // radius in px
 
         holder.imageView.setImageDrawable(drawable);
-
 
         final String tenant_id = tenant_list.get(position).tenantId;
 
@@ -99,6 +117,27 @@ public class TenantRecyclerAdapter extends RecyclerView.Adapter<TenantRecyclerAd
         });
     }
 
+    private void startTime() {
+        long difference = getRemainingDays();
+        daysRemaining = (int) (difference/(1000*60*60*24));
+
+        Log.v(TAG, "DIFFERENCE IS: " + difference);
+        Log.v(TAG, "DAYS REMAINING IS: " + daysRemaining);
+    }
+
+    //--------------------Logic Here-------------------//
+    private long getRemainingDays() {
+
+        Calendar dueDate = Calendar.getInstance();
+        dueDate.set(Calendar.DATE, dueDate.getActualMaximum(Calendar.DATE));
+
+        Calendar today = Calendar.getInstance();
+
+        return dueDate.getTimeInMillis() - today.getTimeInMillis();
+
+    }
+    //-----------------------Logic Here------------------//
+
     @Override
     public int getItemCount() {
         return tenant_list.size();
@@ -110,6 +149,9 @@ public class TenantRecyclerAdapter extends RecyclerView.Adapter<TenantRecyclerAd
         private TextView tenantNameView;
         private TextView tenantPropertyView;
         private ImageView imageView;
+        public TextView txtDaysRemain;
+
+
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -126,6 +168,24 @@ public class TenantRecyclerAdapter extends RecyclerView.Adapter<TenantRecyclerAd
         public void setTenantPropertyText(String tenantProperty_name) {
             tenantPropertyView = mView.findViewById(R.id.tenant_property);
             tenantPropertyView.setText(tenantProperty_name);
+        }
+
+        public void setDaysRemainingText(String daysRemainingText) {
+            txtDaysRemain = mView.findViewById(R.id.txtDaysRemain);
+
+            if (daysRemaining < 1) {
+                txtDaysRemain.setText("RENT DUE TODAY");
+                txtDaysRemain.setTextColor(Color.RED);
+                return;
+            }else if(daysRemaining < 8){
+                txtDaysRemain.setTextColor(Color.RED);
+            } else if (daysRemaining > 7 ){
+                txtDaysRemain.setTextColor(Color.GREEN);
+            }
+
+            txtDaysRemain.setText(daysRemainingText);
+
+
         }
     }
 }
